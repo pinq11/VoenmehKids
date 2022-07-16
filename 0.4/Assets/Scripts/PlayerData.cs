@@ -5,4 +5,5 @@ using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
     public int questNumber;
+    public int dialogueNumber;
 }
