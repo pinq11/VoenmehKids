@@ -2,55 +2,88 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-[SerializeField]
+using System;
+using UnityStandardAssets.Characters.FirstPerson;
+
+[Serializable]
 public class DialogueObject
 {
     public string[] Dialogues;
     public string CharacterName;
     public int questNumber;
 }
-public class DialogueScript : MonoBehaviour
+namespace UnityStandartAssest.Characters.Firstperson
 {
-    private PlayerData data;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI dialogueText;
-    private int currentDialogueNum = 0;
-    private DialogueObject curDialogue=null;
+    public class DialogueScript : MonoBehaviour
+    {
+        public PlayerData data;
+        public TextMeshProUGUI nameText;
+        public TextMeshProUGUI dialogueText;
+        public RigidbodyFirstPersonController rigid;
+        private QuestOBJ obj;
+        private int currentDialogueNum = 0;
+        private DialogueObject curDialogue = null;
 
-    [Header("Dialogue Objects")]
-    public DialogueObject dialogue1;
-    private void Start()
-    {
-        data = FindObjectOfType<PlayerData>();
-    }
-    private void OnEnable()
-    {
-        switch (data.dialogueNumber)
+        [Header("Dialogue Objects")]
+        public DialogueObject dialogue1;
+        public DialogueObject dialogue2;
+
+        [Header("NPCs")]
+        public Interact npc1;
+
+
+        private void Awake()
         {
-            case 1:
-                curDialogue = dialogue1;
-                PlayDialogue(dialogue1);
-                break;
+            obj = FindObjectOfType<QuestOBJ>();
         }
-    }
-    void PlayDialogue(DialogueObject temp)
-    {
-        nameText.text = temp.CharacterName;
-        if (currentDialogueNum<temp.Dialogues.Length)
+        private void OnEnable()
         {
-            dialogueText.text = temp.Dialogues[currentDialogueNum];
+            switch (data.dialogueNumber)
+            {
+                case 1:
+                    curDialogue = dialogue1;
+                    PlayDialogue(dialogue1);
+                    break;
+                case 2:
+                    curDialogue = dialogue2;
+                    PlayDialogue(dialogue2);
+                    break;
+            }
         }
-        else
+        void PlayDialogue(DialogueObject temp)
         {
-            //end;
+            nameText.text = temp.CharacterName;
+            if (currentDialogueNum < temp.Dialogues.Length)
+            {
+                dialogueText.text = temp.Dialogues[currentDialogueNum];
+            }
+            else
+            {
+                rigid.enabled = true;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                switch(data.dialogueNumber)
+                {
+                    case 1:
+                        npc1.talked = true;
+                        obj.StartNewQuest(obj.quests[0]);
+                        break;
+                }
+                data.dialogueNumber = 0;
+                currentDialogueNum = 0;
+                data.questNumber = curDialogue.questNumber;
+                curDialogue = null;
+                npc1.inDialogue = false;
+                this.gameObject.SetActive(false);
+            }
         }
-    }
-    public void next()
-    {
-        if (curDialogue != null)
+        public void next()
         {
-            currentDialogueNum++;
-            PlayDialogue((DialogueObject)curDialogue);
+            if (curDialogue != null)
+            {
+                currentDialogueNum++;
+                PlayDialogue((DialogueObject)curDialogue);
+            }
         }
     }
 }
