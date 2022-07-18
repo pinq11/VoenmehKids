@@ -8,13 +8,14 @@ public class Skeleton : MonoBehaviour
     private NavMeshAgent nav;
     public GameObject player;
     public Horde horde;
+    public Animator animator;
     private Vector3 lastpos;
     private float updateTime = 0;
     public bool alerted = false;
-    public bool idle = true;
     public float check;
     void Start()
     {
+        animator.SetBool("Idle", true);
         lastpos = this.transform.position;
         nav = GetComponent<NavMeshAgent>();
     }
@@ -23,23 +24,35 @@ public class Skeleton : MonoBehaviour
         updateTime += Time.deltaTime;
         float distance = Vector3.Distance(this.transform.position, player.transform.position);
         check = distance;
-        if ((distance <=20.0)&&(!alerted))
+        if ((distance <=10.0)&&(!alerted))
         {
-            if (idle)
-            {
                 horde.Alert();
-                idle = false;
-            }     
         }
-        else if(distance >50.0)
+        if (alerted)
         {
-            if(!idle)
+            animator.SetBool("Idle", false);
+            if (distance < 3.0)
             {
-                idle = true;
+                animator.SetBool("Walking", false);
+                animator.SetBool("Attack", true);
+            }
+            else if (distance > 20.0)
+            {
                 nav.destination = lastpos;
                 alerted = false;
             }
+            else
+            {
+                animator.SetBool("Attack", false);
+                animator.SetBool("Walking", true);
+            }
         }
+        if (!alerted && lastpos.Equals(this.transform.position))
+        {
+            animator.SetBool("Walking", false);
+            animator.SetBool("Idle", true);
+        }
+        
     }
     private void LateUpdate()
     {
@@ -47,8 +60,6 @@ public class Skeleton : MonoBehaviour
         {
             if (alerted)
                 nav.destination = player.transform.position;
-            else
-                lastpos = this.transform.position;
             updateTime = 0;
         }
     }
