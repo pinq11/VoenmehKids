@@ -17,12 +17,21 @@ public class Skeleton : MonoBehaviour
     public float check;
     public float radiuscos=0;
     public float radiussin=0;
+
+    // это Толя добавил
+    private PlayerData data;
+    private bool isAttacking = false;
+    public float minDamage;
+    public float maxDamage;
+   
     void Start()
     {
         animator.SetBool("Idle", true);
         lastpos = this.transform.position;
         nav = GetComponent<NavMeshAgent>();
+        data = FindObjectOfType<PlayerData>();
     }
+    
     public void Update()
     {
         idlecheck = transform.position - lastpos;
@@ -38,18 +47,22 @@ public class Skeleton : MonoBehaviour
             animator.SetBool("Idle", false);
             if (distance < 3.0)
             {
-                animator.SetBool("Walking", false);
-                animator.SetBool("Attack", true);
-                transform.LookAt(player.transform);
+                if (!isAttacking)
+                {
+                    StartCoroutine(Attack());
+                }
+
+                
             }
             else if (distance > 20.0)
             {
                 nav.destination = lastpos;
                 alerted = false;
             }
-            else
+            else 
             {
                 animator.SetBool("Attack", false);
+                isAttacking = false;
                 animator.SetBool("Walking", true);
             }
         }
@@ -60,6 +73,7 @@ public class Skeleton : MonoBehaviour
         }
         
     }
+    
     private void LateUpdate()
     {
         if (updateTime > 1)
@@ -74,7 +88,17 @@ public class Skeleton : MonoBehaviour
         }
     }
 
-
-
-
+    private IEnumerator Attack()
+    {
+        if (!isAttacking)
+        {
+            isAttacking = true;
+            animator.SetBool("Walking", false);
+            animator.SetBool("Attack", true);
+            transform.LookAt(player.transform);
+            yield return new WaitForSeconds(1.2f);
+            data.TakeDamage(Random.Range(minDamage, maxDamage));
+            isAttacking = false;
+        }
+    }
 }
