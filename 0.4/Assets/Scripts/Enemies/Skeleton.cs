@@ -21,8 +21,6 @@ public class Skeleton : MonoBehaviour
     // это Толя добавил
     private PlayerData data;
     private bool isAttacking = false;
-    public float minDamage;
-    public float maxDamage;
    
     void Start()
     {
@@ -38,27 +36,32 @@ public class Skeleton : MonoBehaviour
         updateTime += Time.deltaTime;
         float distance = Vector3.Distance(this.transform.position, player.transform.position);
         check = idlecheck.magnitude;
+
+        // если игрок попал в радиус преследования
         if ((distance <=10.0)&&(!alerted))
         {
-                horde.Alert();
+            horde.Alert();
         }
+
+        // если стригерены на игрока
         if (alerted)
         {
             animator.SetBool("Idle", false);
+            // на дистанции атаки 
             if (distance < 3.0)
             {
                 if (!isAttacking)
                 {
                     StartCoroutine(Attack());
                 }
-
-                
             }
+            // игрок вышел из радиуса преследования
             else if (distance > 20.0)
             {
                 nav.destination = lastpos;
                 alerted = false;
             }
+            // продолжать преследование
             else 
             {
                 animator.SetBool("Attack", false);
@@ -66,6 +69,8 @@ public class Skeleton : MonoBehaviour
                 animator.SetBool("Walking", true);
             }
         }
+
+        // если пришли к изначальной точке, то анимация ожидания вкл
         if (!alerted && idlecheck.magnitude<2)
         {
             animator.SetBool("Walking", false);
@@ -97,7 +102,7 @@ public class Skeleton : MonoBehaviour
             animator.SetBool("Attack", true);
             transform.LookAt(player.transform);
             yield return new WaitForSeconds(1.2f);
-            data.TakeDamage(Random.Range(minDamage, maxDamage));
+            data.TakeDamage(Random.Range(horde.minDamage, horde.maxDamage));
             isAttacking = false;
         }
     }
