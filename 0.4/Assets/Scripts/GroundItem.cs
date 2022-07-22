@@ -7,11 +7,42 @@ public class GroundItem : MonoBehaviour
 {
     public TextMeshProUGUI triggerText;
     public new string name;
+    public ObjectData pickupItem;
+
+    private PlayerData data;
+
+    public GameObject parent;
+
+    private bool isPickedUp;
+
+    private void Start()
+    {
+        data = FindObjectOfType<PlayerData>();
+    }
 
     private void OnTriggerStay(Collider other)
     {
-        triggerText.gameObject.SetActive(true);
-        triggerText.text = "Нажмите E, чтобы подобрать " + name;
+        if (!isPickedUp)
+        {
+            triggerText.gameObject.SetActive(true);
+            triggerText.text = "Нажмите E, чтобы подобрать " + name;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            // че-та неприкольный цикл, надо перерабоать
+            for (int i = 0; i < data.hotBar.Length; i++)
+            {
+                if (data.hotBar[i] == null)
+                {
+                    data.hotBar[i] = pickupItem;
+                    triggerText.gameObject.SetActive(false);
+                    i = data.hotBar.Length + 1;
+                    isPickedUp = true;
+                    Destroy(parent);
+                }
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
