@@ -34083,6 +34083,17 @@ MonoBehaviour:
   curHealth: 0
   healthSlider: {fileID: 662852937}
   healthText: {fileID: 193399058}
+  hotBar:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1122239433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51298,6 +51309,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerText: {fileID: 1461839472}
   name: Rookie Sword
+  pickupItem: {fileID: 11400000, guid: 286ba663542359f4d87ebc4b0274798c, type: 2}
+  parent: {fileID: 1575789150}
 --- !u!65 &1567894697
 BoxCollider:
   m_ObjectHideFlags: 0
