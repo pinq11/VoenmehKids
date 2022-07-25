@@ -17,7 +17,7 @@ public class PlayerData : MonoBehaviour
     public Slider healthSlider;
     public TextMeshProUGUI healthText; 
 
-    // Инвентарь игрока
+    // предметы быстрого доступа игрока
     public ObjectData[] hotBar;
 
     public void Start()

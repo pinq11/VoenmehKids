@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Object/Type")]
 public class ObjectData : ScriptableObject
 {
-    
+    public Sprite sprite;
 }
