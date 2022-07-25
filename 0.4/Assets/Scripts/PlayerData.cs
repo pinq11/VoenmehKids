@@ -17,6 +17,9 @@ public class PlayerData : MonoBehaviour
     public Slider healthSlider;
     public TextMeshProUGUI healthText; 
 
+    // Инвентарь игрока
+    public ObjectData[] hotBar;
+
     public void Start()
     {
         healthSlider.maxValue = maxHealth;

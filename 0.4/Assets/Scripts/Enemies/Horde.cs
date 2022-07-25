@@ -9,6 +9,11 @@ public class Horde : MonoBehaviour
     private int current = 0;
     [Header("Enemies")]
     public Skeleton[] skeletons;
+
+    // Это Толя добавил
+    public float minDamage;
+    public float maxDamage;
+
     public void Start()
     {
         foreach (var skeleton in skeletons)
@@ -22,6 +27,7 @@ public class Horde : MonoBehaviour
             current++;
         }
     }
+
     public void Alert()
     {
         foreach (var skeleton in skeletons)
