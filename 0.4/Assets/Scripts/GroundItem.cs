@@ -6,7 +6,7 @@ using TMPro;
 public class GroundItem : MonoBehaviour
 {
     public TextMeshProUGUI triggerText;
-    public new string name;
+    public new string itemName;
     public ObjectData pickupItem;
 
     private PlayerData data;
@@ -25,7 +25,7 @@ public class GroundItem : MonoBehaviour
         if (!isPickedUp)
         {
             triggerText.gameObject.SetActive(true);
-            triggerText.text = "Нажмите E, чтобы подобрать " + name;
+            triggerText.text = "Нажмите E, чтобы подобрать " + itemName;
         }
         
         if (Input.GetKeyDown(KeyCode.E))
@@ -37,9 +37,10 @@ public class GroundItem : MonoBehaviour
                 {
                     data.hotBar[i] = pickupItem;
                     triggerText.gameObject.SetActive(false);
-                    i = data.hotBar.Length + 1;
+                    //i = data.hotBar.Length + 1;
                     isPickedUp = true;
                     Destroy(parent);
+                    break;
                 }
             }
         }
