@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab248ba8f731a1499149b16ad8c4167, type: 3}
   m_Name: Rookie Sword
   m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: d9e60910a669ccf41800976c96607250, type: 3}
