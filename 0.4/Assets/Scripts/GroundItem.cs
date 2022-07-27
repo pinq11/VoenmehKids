@@ -33,13 +33,13 @@ public class GroundItem : MonoBehaviour
         {
             data.PickUpItem(pickupItem);
             // че-та неприкольный цикл, надо перерабоать
-            for (int i = 0; i < data.hotBar.Length; i++)
+            for (int i = 0; i < data.hotbar.data.Length; i++)
             {
-                if (data.hotBar[i] == null)
+                if (data.hotbar.data[i] == null)
                 {
                     // нужно, чтобы здесь предмет клался либо в хотбар
                     // либо в инвентарь игрока
-                    data.hotBar[i] = pickupItem;
+                    data.hotbar.data[i] = pickupItem;
                     triggerText.gameObject.SetActive(false);
                     isPickedUp = true;
                     Destroy(parent);

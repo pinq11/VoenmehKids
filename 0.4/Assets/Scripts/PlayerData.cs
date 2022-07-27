@@ -21,7 +21,9 @@ public class PlayerData : MonoBehaviour
     public struct Hotbar
     {
         public ObjectData[] data;
+        // их иконки
         public Image[] images;
+        public int curItem;
     }
     public Hotbar hotbar;
 
