@@ -18,7 +18,12 @@ public class PlayerData : MonoBehaviour
     public TextMeshProUGUI healthText; 
 
     // предметы быстрого доступа игрока
-    public ObjectData[] hotBar;
+    public struct Hotbar
+    {
+        public ObjectData[] data;
+        public Image[] images;
+    }
+    public Hotbar hotbar;
 
     public void Start()
     {
@@ -48,5 +53,11 @@ public class PlayerData : MonoBehaviour
         }
         healthSlider.value = curHealth;
         healthText.text = curHealth.ToString("F0") + "/" + maxHealth.ToString("F0");
+    }
+
+    // подбирает, куда засунуть предмет: в хотбар, или в инвентарь, или места нет
+    public void PickUpItem(ObjectData pickUpItem)
+    {
+
     }
 }

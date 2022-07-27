@@ -22,6 +22,7 @@ public class GroundItem : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        // показывает текст на экране перед игроком
         if (!isPickedUp)
         {
             triggerText.gameObject.SetActive(true);
@@ -30,14 +31,16 @@ public class GroundItem : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.E))
         {
+            data.PickUpItem(pickupItem);
             // че-та неприкольный цикл, надо перерабоать
             for (int i = 0; i < data.hotBar.Length; i++)
             {
                 if (data.hotBar[i] == null)
                 {
+                    // нужно, чтобы здесь предмет клался либо в хотбар
+                    // либо в инвентарь игрока
                     data.hotBar[i] = pickupItem;
                     triggerText.gameObject.SetActive(false);
-                    //i = data.hotBar.Length + 1;
                     isPickedUp = true;
                     Destroy(parent);
                     break;
