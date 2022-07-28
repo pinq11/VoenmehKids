@@ -31,21 +31,17 @@ public class GroundItem : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.E))
         {
-            data.PickUpItem(pickupItem);
-            // че-та неприкольный цикл, надо перерабоать
-            for (int i = 0; i < data.hotbar.data.Length; i++)
+            if (data.PickUpItem(pickupItem))
             {
-                if (data.hotbar.data[i] == null)
-                {
-                    // нужно, чтобы здесь предмет клался либо в хотбар
-                    // либо в инвентарь игрока
-                    data.hotbar.data[i] = pickupItem;
-                    triggerText.gameObject.SetActive(false);
-                    isPickedUp = true;
-                    Destroy(parent);
-                    break;
-                }
+                triggerText.gameObject.SetActive(false);
+                isPickedUp = true;
+                Destroy(parent);
             }
+            
+            // вот здесь если предмет подобран, то 
+            
+            // иначе будет продолжать гореть
+            // data.PickUpItem(pickupItem) вернет bool подобран или нет предмет
         }
     }
 

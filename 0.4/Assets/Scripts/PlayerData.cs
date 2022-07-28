@@ -15,24 +15,34 @@ public class PlayerData : MonoBehaviour
 
     [Header("UIComponents")]
     public Slider healthSlider;
-    public TextMeshProUGUI healthText; 
+    public TextMeshProUGUI healthText;
 
     // предметы быстрого доступа игрока
+    [System.Serializable]
     public struct Hotbar
     {
         public ObjectData[] data;
         // их иконки
         public Image[] images;
+        public Image[] backgrounds;
         public int curItem;
+        public int maxItem;
+        public int minItem;
+        public Color defaultColor;
+        public Color selectedColor;
     }
     public Hotbar hotbar;
 
     public void Start()
     {
+        // настройка здоровь€
         healthSlider.maxValue = maxHealth;
         curHealth = maxHealth;
         healthSlider.value = curHealth;
         healthText.text = curHealth.ToString("F0") + "/" + maxHealth.ToString("F0");
+
+        //ScrollHotBar();
+        hotbar.backgrounds[hotbar.curItem].color = hotbar.selectedColor;
     }
 
     public void TakeDamage(float damage)
@@ -58,8 +68,46 @@ public class PlayerData : MonoBehaviour
     }
 
     // подбирает, куда засунуть предмет: в хотбар, или в инвентарь, или места нет
-    public void PickUpItem(ObjectData pickUpItem)
+    public bool PickUpItem(ObjectData pickUpItem)
     {
+        // сначала провер€ем хотбар, если есть свободна€ €чейка
+        // то кладем в нее
+        for (int i = 0; i < hotbar.data.Length; i++)
+            if (hotbar.data[i] == null)
+            {
+                hotbar.data[i] = pickUpItem;
+                hotbar.images[i].sprite = pickUpItem.sprite;
+                break;
+            }
 
+        return true;
+    }
+
+    /*public void ScrollHotBar()
+    {
+        for (var i = 0; i < hotbar.data.Length; i++)
+            if (i == hotbar.curItem)
+                hotbar.backgrounds[i].color = hotbar.selectedColor;
+            else
+                hotbar.backgrounds[i].color = hotbar.defaultColor;
+    }*/
+
+    private void Update()
+    {
+        // если покрутили колесиком
+        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0)
+        {
+            // перекрашиваем старый в дефолтный цвет
+            hotbar.backgrounds[hotbar.curItem].color = hotbar.defaultColor;
+
+            // мен€ем curItem
+            if (Input.GetAxisRaw("Mouse ScrollWheel") < 0)
+                hotbar.curItem = (hotbar.curItem - 1 < hotbar.minItem) ? hotbar.maxItem : hotbar.curItem - 1;
+            else
+                hotbar.curItem = (hotbar.curItem + 1 > hotbar.maxItem) ? 0 : hotbar.curItem + 1;
+            
+            // красим новый выбранный предмет
+            hotbar.backgrounds[hotbar.curItem].color = hotbar.selectedColor;
+        }
     }
 }
