@@ -33,6 +33,13 @@ public class PlayerData : MonoBehaviour
     }
     public Hotbar hotbar;
 
+    [System.Serializable]
+    public struct Equipment
+    {
+        public Dictionary<string, ObjectData> data;
+
+    }
+
     public void Start()
     {
         // настройка здоровья
