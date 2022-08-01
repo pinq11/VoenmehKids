@@ -8,6 +8,7 @@ public class UI_Manager : MonoBehaviour
     
     void Update()
     {
+        // включение инвентаря
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             InventorySystem.SetActive(!InventorySystem.activeSelf);

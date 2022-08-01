@@ -36,7 +36,16 @@ public class PlayerData : MonoBehaviour
     [System.Serializable]
     public struct Equipment
     {
-        public Dictionary<string, ObjectData> data;
+        public ObjectData helmet;
+        public ObjectData armor;
+        public ObjectData boots;
+
+        public ObjectData leftRing;
+        public ObjectData rightRing;
+    }
+
+    public struct Inventory
+    {
 
     }
 
@@ -87,17 +96,11 @@ public class PlayerData : MonoBehaviour
                 break;
             }
 
+        // потом проверяем инвентарь, если не было места в хотбаре
+
+        // возвращаем удалось ли запихать в инвентарь
         return true;
     }
-
-    /*public void ScrollHotBar()
-    {
-        for (var i = 0; i < hotbar.data.Length; i++)
-            if (i == hotbar.curItem)
-                hotbar.backgrounds[i].color = hotbar.selectedColor;
-            else
-                hotbar.backgrounds[i].color = hotbar.defaultColor;
-    }*/
 
     private void Update()
     {
