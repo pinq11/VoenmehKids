@@ -3,18 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour/*, /*IPointerClickHandler, IPointerEnterHandler,
-                    IPointerExitHandler, IPointerUpHandler*/
+public class Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerEnterHandler
 {
-    // Start is called before the first frame update
-    void Start()
+    public static PlayerData data;
+
+    public void Awake()
     {
-        
+        data = FindObjectOfType<PlayerData>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnDrag(PointerEventData eventData)
     {
         
+        transform.position = Input.mousePosition;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        data.MoveItem();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log(name + "Enter");
     }
 }

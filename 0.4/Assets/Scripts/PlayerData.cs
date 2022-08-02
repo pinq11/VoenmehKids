@@ -17,6 +17,14 @@ public class PlayerData : MonoBehaviour
     public Slider healthSlider;
     public TextMeshProUGUI healthText;
 
+    [System.Serializable]
+    public struct InventoryItem
+    {
+        public ObjectData data;
+        public Image image;
+        public Image background;
+    }
+
     // предметы быстрого доступа игрока
     [System.Serializable]
     public struct Hotbar
@@ -31,18 +39,21 @@ public class PlayerData : MonoBehaviour
         public Color defaultColor;
         public Color selectedColor;
     }
+    [Header("Hotbar")]
     public Hotbar hotbar;
 
     [System.Serializable]
     public struct Equipment
     {
-        public ObjectData helmet;
-        public ObjectData armor;
-        public ObjectData boots;
+        public InventoryItem helmet;
+        public InventoryItem armor;
+        public InventoryItem boots;
 
-        public ObjectData leftRing;
-        public ObjectData rightRing;
+        public InventoryItem leftRing;
+        public InventoryItem rightRing;
     }
+    [Header("Equipment")]
+    public Equipment equipment;
 
     public struct Inventory
     {
@@ -57,7 +68,7 @@ public class PlayerData : MonoBehaviour
         healthSlider.value = curHealth;
         healthText.text = curHealth.ToString("F0") + "/" + maxHealth.ToString("F0");
 
-        //ScrollHotBar();
+        // настройка хотбара
         hotbar.backgrounds[hotbar.curItem].color = hotbar.selectedColor;
     }
 
@@ -100,6 +111,12 @@ public class PlayerData : MonoBehaviour
 
         // возвращаем удалось ли запихать в инвентарь
         return true;
+    }
+
+    // драг и дроп предметов в инвентаре
+    public void MoveItem()
+    {
+
     }
 
     private void Update()
