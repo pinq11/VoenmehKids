@@ -14,7 +14,6 @@ public class Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerEnterH
 
     public void OnDrag(PointerEventData eventData)
     {
-        
         transform.position = Input.mousePosition;
     }
 
