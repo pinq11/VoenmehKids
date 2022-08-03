@@ -114,9 +114,9 @@ public class PlayerData : MonoBehaviour
     }
 
     // драг и дроп предметов в инвентаре
-    public void MoveItem()
+    public void MoveItem(GameObject start, GameObject finish)
     {
-
+        //start.
     }
 
     private void Update()

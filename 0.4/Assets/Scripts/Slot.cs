@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerEnterHandler
 {
     public static PlayerData data;
+    public static GameObject slot;
 
     public void Awake()
     {
@@ -14,16 +15,16 @@ public class Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerEnterH
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition;
+        transform.position = eventData.pointerCurrentRaycast.screenPosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        data.MoveItem();
+        data.MoveItem(this.gameObject, slot);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log(name + "Enter");
+        slot = eventData.pointerEnter; 
     }
 }
