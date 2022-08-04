@@ -26,20 +26,6 @@ public class PlayerData : MonoBehaviour
     }
 
     // предметы быстрого доступа игрока
-    [System.Serializable]
-    public struct Hotbar
-    {
-        public ObjectData[] data;
-        // их иконки
-        public Image[] images;
-        public Image[] backgrounds;
-        public int curItem;
-        public int maxItem;
-        public int minItem;
-        public Color defaultColor;
-        public Color selectedColor;
-    }
-    [Header("Hotbar")]
     public Hotbar hotbar;
 
     [System.Serializable]
@@ -69,7 +55,7 @@ public class PlayerData : MonoBehaviour
         healthText.text = curHealth.ToString("F0") + "/" + maxHealth.ToString("F0");
 
         // настройка хотбара
-        hotbar.backgrounds[hotbar.curItem].color = hotbar.selectedColor;
+        hotbar.SelectCurItem();
     }
 
     public void TakeDamage(float damage)
@@ -99,13 +85,7 @@ public class PlayerData : MonoBehaviour
     {
         // сначала провер€ем хотбар, если есть свободна€ €чейка
         // то кладем в нее
-        for (int i = 0; i < hotbar.data.Length; i++)
-            if (hotbar.data[i] == null)
-            {
-                hotbar.data[i] = pickUpItem;
-                hotbar.images[i].sprite = pickUpItem.sprite;
-                break;
-            }
+        hotbar.AddItem(pickUpItem);
 
         // потом провер€ем инвентарь, если не было места в хотбаре
 
@@ -114,7 +94,7 @@ public class PlayerData : MonoBehaviour
     }
 
     // драг и дроп предметов в инвентаре
-    public void MoveItem(GameObject start, GameObject finish)
+    public void MoveItem(Slot start, Slot finish)
     {
         //start.
     }
@@ -125,16 +105,16 @@ public class PlayerData : MonoBehaviour
         if (Input.GetAxisRaw("Mouse ScrollWheel") != 0)
         {
             // перекрашиваем старый в дефолтный цвет
-            hotbar.backgrounds[hotbar.curItem].color = hotbar.defaultColor;
+            hotbar.UnSeletctCurItem();
 
             // мен€ем curItem
             if (Input.GetAxisRaw("Mouse ScrollWheel") < 0)
-                hotbar.curItem = (hotbar.curItem - 1 < hotbar.minItem) ? hotbar.maxItem : hotbar.curItem - 1;
+                hotbar.CurItemDown();
             else
-                hotbar.curItem = (hotbar.curItem + 1 > hotbar.maxItem) ? 0 : hotbar.curItem + 1;
-            
+                hotbar.CurItemUp();
+
             // красим новый выбранный предмет
-            hotbar.backgrounds[hotbar.curItem].color = hotbar.selectedColor;
+            hotbar.SelectCurItem();
         }
     }
 }

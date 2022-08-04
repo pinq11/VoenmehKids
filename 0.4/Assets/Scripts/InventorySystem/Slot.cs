@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerEnterHandler
+public abstract class Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerEnterHandler
 {
     public static PlayerData data;
-    public static GameObject slot;
+    public static Slot finish;
+    public Image icon;
+    public Image background;
 
     public void Awake()
     {
@@ -20,11 +23,11 @@ public class Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerEnterH
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        data.MoveItem(this.gameObject, slot);
+        data.MoveItem(this, finish);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        slot = eventData.pointerEnter; 
+        finish = this;
     }
 }
