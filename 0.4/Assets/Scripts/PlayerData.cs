@@ -57,7 +57,7 @@ public class PlayerData : MonoBehaviour
 
     public struct Inventory
     {
-
+        public InventoryItem[,] inventory;
     }
 
     public void Start()
