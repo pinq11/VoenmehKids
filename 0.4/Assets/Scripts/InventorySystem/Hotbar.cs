@@ -17,9 +17,6 @@ public class Hotbar : MonoBehaviour
 
     public Hotbar ()
     {
-        // этот строчка не нужна, ибо прикрепление предметов в инспекторе
-        // юнити срабатывает после вызова конструктора
-        //UI = new HotbarSlot[MAX_ITEMS];
         items = new ObjectData[MAX_ITEMS];
     }
 
@@ -29,6 +26,14 @@ public class Hotbar : MonoBehaviour
             return true;
 
         return false; 
+    }
+
+    public ObjectData GetItemByIndex(int index) 
+    {
+        if (index < 0 || index >= MAX_ITEMS)
+            throw new System.ArgumentOutOfRangeException();
+
+        return items[index]; 
     }
 
     public bool AddItem(ObjectData addedItem)
@@ -48,28 +53,64 @@ public class Hotbar : MonoBehaviour
         return true;
     }
 
-    public bool DeleteItem()
+    public void AddItemByIndex(ObjectData addedItem, int index)
     {
-        curItemsAmount--;
-        return false;
+        if (index < 0 || index >= MAX_ITEMS)
+            throw new System.ArgumentOutOfRangeException();
+
+        items[index] = addedItem;
+        UI[index].icon.sprite = addedItem.sprite;
+        curItemsAmount++;
     }
 
+    public void DeleteItem(int index)
+    {
+        if (index < 0 || index >= MAX_ITEMS)
+            throw new System.ArgumentOutOfRangeException();
+
+        items[index] = null;
+        UI[index].icon.sprite = null;
+        curItemsAmount--;
+    }
+
+    // заменяет два предмета их хотбара между собой
+    public void Replace(int startIndex, int finishIndex)
+    {
+        if (startIndex < 0 || startIndex >= MAX_ITEMS)
+            throw new System.ArgumentOutOfRangeException();
+
+        if (finishIndex < 0 || finishIndex >= MAX_ITEMS)
+            throw new System.ArgumentOutOfRangeException();
+
+        Sprite tempUI = UI[startIndex].icon.sprite;
+        UI[startIndex].icon.sprite = UI[finishIndex].icon.sprite;
+        UI[finishIndex].icon.sprite = tempUI;
+
+        ObjectData tempItem = items[startIndex];
+        items[startIndex] = items[finishIndex];
+        items[finishIndex] = tempItem;
+    }
+
+    // помечает текущий предмет хотбара цветом
     public void SelectCurItem()
     {
         UI[curItem].background.color = selectedColor;
     }
 
+    // возварщает дефолтный цвет ячейке хотбара
     public void UnSeletctCurItem()
     {
         UI[curItem].background.color = defaultColor;
     }
 
+    // увеличивает текущий предмет на 1
     public void CurItemUp() 
     { 
         curItem++;
         curItem %= MAX_ITEMS;
     }
 
+    // уменьшает текущий предмет на 1
     public void CurItemDown() 
     { 
         curItem--;

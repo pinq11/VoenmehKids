@@ -85,18 +85,21 @@ public class PlayerData : MonoBehaviour
     {
         // сначала провер€ем хотбар, если есть свободна€ €чейка
         // то кладем в нее
-        hotbar.AddItem(pickUpItem);
+        if (hotbar.AddItem(pickUpItem))
+            return true;
 
         // потом провер€ем инвентарь, если не было места в хотбаре
+        
 
         // возвращаем удалось ли запихать в инвентарь
-        return true;
+        return false;
     }
 
     // драг и дроп предметов в инвентаре
     public void MoveItem(Slot start, Slot finish)
     {
-        //start.
+        if (start is HotbarSlot a && finish is HotbarSlot b)
+            hotbar.Replace(a.index, b.index);
     }
 
     private void Update()

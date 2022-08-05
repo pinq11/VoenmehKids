@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public abstract class Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerEnterHandler
 {
-    public static PlayerData data;
-    public static Slot finish;
+    private static PlayerData data;
+    private static Slot finish;
     public Image icon;
     public Image background;
 
