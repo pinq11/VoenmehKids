@@ -20,16 +20,16 @@ namespace UnityStandartAssest.Characters.Firstperson
         public TextMeshProUGUI nameText;
         public TextMeshProUGUI dialogueText;
         public RigidbodyFirstPersonController rigid;
+        public int currentNpc;
         private QuestOBJ obj;
         private int currentDialogueNum = 0;
         private DialogueObject curDialogue = null;
 
         [Header("Dialogue Objects")]
-        public DialogueObject dialogue1;
-        public DialogueObject dialogue2;
+        public DialogueObject[] dialogue;
 
         [Header("NPCs")]
-        public Interact npc1;
+        public Interact[] npcs;
 
 
         private void Awake()
@@ -40,13 +40,17 @@ namespace UnityStandartAssest.Characters.Firstperson
         {
             switch (data.dialogueNumber)
             {
+                case 0:
+                    curDialogue = dialogue[0];
+                    PlayDialogue(dialogue[0]);
+                    break;
                 case 1:
-                    curDialogue = dialogue1;
-                    PlayDialogue(dialogue1);
+                    curDialogue = dialogue[1];
+                    PlayDialogue(dialogue[1]);
                     break;
                 case 2:
-                    curDialogue = dialogue2;
-                    PlayDialogue(dialogue2);
+                    curDialogue = dialogue[2];
+                    PlayDialogue(dialogue[2]);
                     break;
             }
         }
@@ -64,16 +68,21 @@ namespace UnityStandartAssest.Characters.Firstperson
                 Cursor.visible = false;
                 switch(data.dialogueNumber)
                 {
-                    case 1:
-                        npc1.talked = true;
+                    case 0:
+                        npcs[0].talked = true;
                         obj.StartNewQuest(obj.quests[0]);
+                        npcs[0].inDialogue = false;
                         break;
+                    case 1:
+                        {
+                            npcs[0].inDialogue = false;
+                            break;
+                        }
                 }
                 data.dialogueNumber = 0;
                 currentDialogueNum = 0;
                 data.questNumber = curDialogue.questNumber;
                 curDialogue = null;
-                npc1.inDialogue = false;
                 this.gameObject.SetActive(false);
             }
         }

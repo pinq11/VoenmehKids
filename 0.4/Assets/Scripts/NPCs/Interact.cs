@@ -10,6 +10,7 @@ namespace UnityStandartAssest.Characters.Firstperson
         public GameObject triggerText;
         public GameObject dialogueObject;
         public RigidbodyFirstPersonController rigid;
+        public int NpcNumber;
         public bool talked = false;
         public bool inDialogue = false;
         private void OnTriggerStay(Collider other)
@@ -25,7 +26,7 @@ namespace UnityStandartAssest.Characters.Firstperson
                     inDialogue = true;
                     if (!talked)
                     {
-                        other.GetComponent<PlayerData>().dialogueNumber = 1;
+                        other.GetComponent<PlayerData>().dialogueNumber = NpcNumber;
                         dialogueObject.SetActive(true);
                         rigid.enabled = false;
                         Cursor.lockState = CursorLockMode.None;
@@ -34,7 +35,7 @@ namespace UnityStandartAssest.Characters.Firstperson
                     }
                     else
                     {
-                        other.GetComponent<PlayerData>().dialogueNumber = 2;
+                        other.GetComponent<PlayerData>().dialogueNumber = NpcNumber+1;
                         dialogueObject.SetActive(true);
                         rigid.enabled = false;
                         Cursor.lockState = CursorLockMode.None;
