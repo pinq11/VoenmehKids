@@ -36,6 +36,7 @@ public class Hotbar : MonoBehaviour
         return items[index]; 
     }
 
+    // добавляет предмет на первое попавшееся свободное место
     public bool AddItem(ObjectData addedItem)
     {
         if (IsFull())
@@ -53,14 +54,18 @@ public class Hotbar : MonoBehaviour
         return true;
     }
 
+    // добавляет предмет по индексу. Если там уже есть другой предмет
+    // то заменяет его
     public void AddItemByIndex(ObjectData addedItem, int index)
     {
         if (index < 0 || index >= MAX_ITEMS)
             throw new System.ArgumentOutOfRangeException();
 
+        if (items[index] == null)
+            curItemsAmount++;
+
         items[index] = addedItem;
         UI[index].icon.sprite = addedItem.sprite;
-        curItemsAmount++;
     }
 
     public void DeleteItem(int index)
@@ -73,7 +78,7 @@ public class Hotbar : MonoBehaviour
         curItemsAmount--;
     }
 
-    // заменяет два предмета их хотбара между собой
+    // заменяет два предмета из хотбара между собой
     public void Replace(int startIndex, int finishIndex)
     {
         if (startIndex < 0 || startIndex >= MAX_ITEMS)

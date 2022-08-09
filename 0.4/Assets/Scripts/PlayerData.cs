@@ -17,34 +17,10 @@ public class PlayerData : MonoBehaviour
     public Slider healthSlider;
     public TextMeshProUGUI healthText;
 
-    [System.Serializable]
-    public struct InventoryItem
-    {
-        public ObjectData data;
-        public Image image;
-        public Image background;
-    }
-
     // предметы быстрого доступа игрока
     public Hotbar hotbar;
 
-    [System.Serializable]
-    public struct Equipment
-    {
-        public InventoryItem helmet;
-        public InventoryItem armor;
-        public InventoryItem boots;
-
-        public InventoryItem leftRing;
-        public InventoryItem rightRing;
-    }
-    [Header("Equipment")]
     public Equipment equipment;
-
-    public struct Inventory
-    {
-        public InventoryItem[,] inventory;
-    }
 
     public void Start()
     {
@@ -99,7 +75,17 @@ public class PlayerData : MonoBehaviour
     public void MoveItem(Slot start, Slot finish)
     {
         if (start is HotbarSlot a && finish is HotbarSlot b)
+        {
+            print(a.index);
+            print(b.index);
             hotbar.Replace(a.index, b.index);
+            return;
+        } 
+
+        if (start is EquipmentSlot a && finish is EquipmentSlot b)
+        {
+            equipment.Replace(a.name, b.name);
+        }
     }
 
     private void Update()
