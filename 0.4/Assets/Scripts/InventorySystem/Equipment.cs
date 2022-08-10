@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Equipment : MonoBehaviour
+/*public class Equipment : MonoBehaviour
 {
     public EquipmentSlot helmetUI;
     private Helmet helmet;
@@ -25,4 +25,4 @@ public class Equipment : MonoBehaviour
     }
 
 
-}
+}*/

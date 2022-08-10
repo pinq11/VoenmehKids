@@ -82,10 +82,10 @@ public class PlayerData : MonoBehaviour
             return;
         } 
 
-        if (start is EquipmentSlot a && finish is EquipmentSlot b)
+       /* if (start is EquipmentSlot a && finish is EquipmentSlot b)
         {
             equipment.Replace(a.name, b.name);
-        }
+        }*/
     }
 
     private void Update()
