@@ -52,6 +52,18 @@ namespace UnityStandartAssest.Characters.Firstperson
                     curDialogue = dialogue[2];
                     PlayDialogue(dialogue[2]);
                     break;
+                case 3:
+                    curDialogue = dialogue[3];
+                    PlayDialogue(dialogue[3]);
+                    break;
+                case 4:
+                    curDialogue = dialogue[4];
+                    PlayDialogue(dialogue[4]);
+                    break;
+                case 5:
+                    curDialogue = dialogue[5];
+                    PlayDialogue(dialogue[5]);
+                    break;
             }
         }
         void PlayDialogue(DialogueObject temp)
@@ -77,6 +89,32 @@ namespace UnityStandartAssest.Characters.Firstperson
                     case 1:
                         {
                             npcs[0].inDialogue = false;
+                            break;
+                        }
+                    case 2:
+                        {
+                            npcs[1].talked = true;
+                            data.questNumber = 5;
+                            obj.StartNewQuest(obj.quests[5]);
+                            npcs[1].inDialogue = false;
+                            break;
+                        }
+                    case 3:
+                        {
+                            npcs[1].inDialogue = false;
+                            break;
+                        }
+                    case 4:
+                        {
+                            npcs[2].talked = true;
+                            data.questNumber = 7;
+                            obj.StartNewQuest(obj.quests[7]);
+                            npcs[2].inDialogue = false;
+                            break;
+                        }
+                    case 5:
+                        {
+                            npcs[2].inDialogue = false;
                             break;
                         }
                 }
