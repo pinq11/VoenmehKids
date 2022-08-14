@@ -5,36 +5,34 @@ using UnityEngine.UI;
 
 public class WayPoint : MonoBehaviour
 {
-    public RawImage img;
-    public RawImage imgFin;
+    public Image img;
     public Transform target;
-    public Transform targetFinale;
-    private bool end = false;
     private void Update()
     {
         float minx = img.GetPixelAdjustedRect().width / 2;
         float maxx = Screen.width - minx;
 
         float miny = img.GetPixelAdjustedRect().height / 2;
-        float maxy = Screen.width - miny;
+        float maxy = Screen.height - miny;
         Vector2 pos = Camera.main.WorldToScreenPoint(target.position);
         pos.x = Mathf.Clamp(pos.x, minx, maxx);
         pos.y = Mathf.Clamp(pos.y, miny, maxy);
-        img.transform.position = pos;
-        if (end)
+        if (Vector3.Dot((target.position - transform.position), transform.forward) < 0)
         {
-            Vector2 finpas = Camera.main.WorldToScreenPoint(targetFinale.position);
-            finpas.x = Mathf.Clamp(pos.x, minx, maxx);
-            finpas.y = Mathf.Clamp(pos.y, miny, maxy);
-            imgFin.transform.position = finpas;
+            if (pos.x < Screen.width / 2)
+            {
+                pos.x = maxx;
+            }
+            else
+            {
+                pos.x = minx;
+            }
         }
+        img.transform.position = pos;
+        
     }
     public void chagnepos(Transform newTarget)
     {
         target = newTarget;
-    }
-    public void Finale()
-    {
-        end = true;
     }
 }

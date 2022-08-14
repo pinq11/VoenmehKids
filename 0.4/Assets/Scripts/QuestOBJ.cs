@@ -27,12 +27,23 @@ public class QuestOBJ : MonoBehaviour
     public GameObject AfterRevenge;
     public GameObject AfterUncle;
     public GameObject AfterBigSkeleton;
+    public GameObject Marker1;
+    public GameObject Marker2;
+    public GameObject Marker3;
+    public GameObject Marker4;
+    public GameObject Marker5;
+    public GameObject Marker6;
+    public GameObject Marker7;
+    public GameObject Marker8;
+    public GameObject Marker9;
+    private WayPoint wayPoint;
     private PlayerData man;
     public TextMeshProUGUI questTitle, questObjective;
     public questData[] quests;
     private void Awake()
     {
         man = FindObjectOfType<PlayerData>(); //находим квесты на старте
+        wayPoint = FindObjectOfType<WayPoint>();
     }
     public void StartNewQuest(questData data)
     {
@@ -46,6 +57,7 @@ public class QuestOBJ : MonoBehaviour
                     horde1.SetActive(true);
                     BeforeFather.SetActive(false);
                     RosaTrigger.SetActive(true);
+                    wayPoint.chagnepos(Marker2.transform);
                     break;
                 }
             case 2:
@@ -53,6 +65,7 @@ public class QuestOBJ : MonoBehaviour
                     horde2.SetActive(true);
                     VillageTrigger.SetActive(true);
                     VillageNpcs.SetActive(false);
+                    wayPoint.chagnepos(Marker3.transform);
                     break;
                 }
             case 3:
@@ -63,31 +76,37 @@ public class QuestOBJ : MonoBehaviour
                 {
                     UncleNpcs1.SetActive(true);
                     AfterRevenge.SetActive(false);
+                    wayPoint.chagnepos(Marker4.transform);
                     break;
                 }
             case 5:
                 {
                     UncleSkeletons.SetActive(true);
+                    wayPoint.chagnepos(Marker5.transform);
                     break;
                 }
             case 6:
                 {
                     UncleNpcs1.SetActive(false);
                     UncleNpcs2.SetActive(true );
+                    wayPoint.chagnepos(Marker6.transform);
                     break;
                 }
             case 7:
                 {
                     BigSkeleton.SetActive(true);
                     AfterUncle.SetActive(false);
+                    wayPoint.chagnepos(Marker7.transform);
                     break;
                 }
             case 8:
                 {
+                    wayPoint.chagnepos(Marker8.transform);
                     break;
                 }
             case 9:
                 {
+                    wayPoint.chagnepos(Marker9.transform);
                     AfterBigSkeleton.SetActive(false);
                     break;
                 }
