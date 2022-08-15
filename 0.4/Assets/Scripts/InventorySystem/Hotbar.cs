@@ -15,6 +15,9 @@ public class Hotbar : MonoBehaviour
     public Color defaultColor;
     public Color selectedColor;
 
+    private GameObject currentEquiped;
+    public GameObject cameraObj;
+
     public Hotbar ()
     {
         items = new ObjectData[MAX_ITEMS];
@@ -65,17 +68,26 @@ public class Hotbar : MonoBehaviour
             curItemsAmount++;
 
         items[index] = addedItem;
-        UI[index].icon.sprite = addedItem.sprite;
+
+        if (addedItem == null)
+            UI[index].icon.sprite = null;
+        else
+            UI[index].icon.sprite = addedItem.sprite;
     }
 
-    public void DeleteItem(int index)
+    // удаляет предмет из хотбара, возвращая его
+    public ObjectData DeleteItem(int index)
     {
         if (index < 0 || index >= MAX_ITEMS)
             throw new System.ArgumentOutOfRangeException();
 
+        ObjectData deleted = items[index];
+
         items[index] = null;
         UI[index].icon.sprite = null;
         curItemsAmount--;
+
+        return deleted;
     }
 
     // заменяет два предмета из хотбара между собой
@@ -100,12 +112,24 @@ public class Hotbar : MonoBehaviour
     public void SelectCurItem()
     {
         UI[curItem].background.color = selectedColor;
+
+        // настройка отображения префаба предмета
+        if (items[curItem] != null)
+        {
+            currentEquiped = Instantiate(items[curItem].prefab);
+            currentEquiped.transform.SetParent(cameraObj.transform);
+            currentEquiped.transform.localPosition = items[curItem].prefab.transform.position;
+            currentEquiped.transform.localRotation = items[curItem].prefab.transform.rotation;
+        }
     }
 
     // возварщает дефолтный цвет ячейке хотбара
     public void UnSeletctCurItem()
     {
         UI[curItem].background.color = defaultColor;
+        // удаляем префаб предмета
+        if (currentEquiped != null)
+            Destroy(currentEquiped);
     }
 
     // увеличивает текущий предмет на 1
@@ -121,5 +145,13 @@ public class Hotbar : MonoBehaviour
         curItem--;
         if (curItem < 0)
             curItem = MAX_ITEMS - 1;
+    }
+
+    public void DropCurItem()
+    {
+        if (items[curItem] == null)
+            return;
+
+        //Instantiate(items[curItem].groundItem);
     }
 }

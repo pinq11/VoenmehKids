@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class EquipmentSlot : Slot
 {
-    public string name;
+    public ArmorType armorType;
 }

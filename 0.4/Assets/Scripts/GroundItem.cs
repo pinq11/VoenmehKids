@@ -18,35 +18,40 @@ public class GroundItem : MonoBehaviour
     private void Start()
     {
         data = FindObjectOfType<PlayerData>();
+        triggerText = data.triggerText;
     }
 
     private void OnTriggerStay(Collider other)
     {
-        // показывает текст на экране перед игроком
-        if (!isPickedUp)
+        if (other.CompareTag("Player"))
         {
-            triggerText.gameObject.SetActive(true);
-            triggerText.text = "Нажмите E, чтобы подобрать " + itemName;
-        }
-        
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (data.PickUpItem(pickupItem))
+            // показывает текст на экране перед игроком
+            if (!isPickedUp)
             {
-                triggerText.gameObject.SetActive(false);
-                isPickedUp = true;
-                Destroy(parent);
+                triggerText.gameObject.SetActive(true);
+                triggerText.text = "Нажмите E, чтобы подобрать " + itemName;
             }
-            
-            // вот здесь если предмет подобран, то 
-            
-            // иначе будет продолжать гореть
-            // data.PickUpItem(pickupItem) вернет bool подобран или нет предмет
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (data.PickUpItem(pickupItem))
+                {
+                    triggerText.gameObject.SetActive(false);
+                    isPickedUp = true;
+                    Destroy(parent);
+                }
+
+                // вот здесь если предмет подобран, то 
+
+                // иначе будет продолжать гореть
+                // data.PickUpItem(pickupItem) вернет bool подобран или нет предмет
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        triggerText.gameObject.SetActive(false);
+        if (other.CompareTag("Player"))
+            triggerText.gameObject.SetActive(false);
     }
 }

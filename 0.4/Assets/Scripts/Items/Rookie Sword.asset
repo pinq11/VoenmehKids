@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: Rookie Sword
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: d9e60910a669ccf41800976c96607250, type: 3}
+  prefab: {fileID: 4245553071225464263, guid: 1657a62d932b4314da67501b0dc2c8f5, type: 3}
+  groundItem: {fileID: 5780631754864674140, guid: 6edf66a95e30b0b47857232a1a3e018d,
+    type: 3}
+  animationTime: 0.35

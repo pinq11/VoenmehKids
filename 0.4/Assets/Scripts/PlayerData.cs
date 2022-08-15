@@ -16,11 +16,17 @@ public class PlayerData : MonoBehaviour
     [Header("UIComponents")]
     public Slider healthSlider;
     public TextMeshProUGUI healthText;
+    public TextMeshProUGUI triggerText;
 
+    [Header("InventorySystem")]
     // предметы быстрого доступа игрока
     public Hotbar hotbar;
 
+    // надета€ экипировка игрока
     public Equipment equipment;
+
+    // вещи в "рюкзаке"
+    public Inventory inventory;
 
     public void Start()
     {
@@ -65,7 +71,7 @@ public class PlayerData : MonoBehaviour
             return true;
 
         // потом провер€ем инвентарь, если не было места в хотбаре
-        
+        //if ()
 
         // возвращаем удалось ли запихать в инвентарь
         return false;
@@ -74,18 +80,53 @@ public class PlayerData : MonoBehaviour
     // драг и дроп предметов в инвентаре
     public void MoveItem(Slot start, Slot finish)
     {
-        if (start is HotbarSlot a && finish is HotbarSlot b)
+        ObjectData temp = null;
+        // забираем и удал€ем предмет из начальной €чейки
+        if (start as HotbarSlot)
         {
-            print(a.index);
-            print(b.index);
-            hotbar.Replace(a.index, b.index);
-            return;
-        } 
+            temp = hotbar.DeleteItem(((HotbarSlot)start).index);
+        }
+        else if (start as EquipmentSlot)
+        {
+            temp = equipment.RemoveArmor(((EquipmentSlot)start).armorType);
+        }
+        else
+        {
+            temp = inventory.DeleteItem(((InventorySlot)start).row, ((InventorySlot)start).col);
+        }
 
-       /* if (start is EquipmentSlot a && finish is EquipmentSlot b)
+        ObjectData temp2 = null;
+        // вставл€ем предмет в конечную €чейку, перед этим забрав ее содержимое
+        if (finish as HotbarSlot)
         {
-            equipment.Replace(a.name, b.name);
-        }*/
+            temp2 = hotbar.DeleteItem(((HotbarSlot)finish).index);
+            hotbar.AddItemByIndex(temp, ((HotbarSlot)finish).index);
+        }
+        else if (finish as EquipmentSlot)
+        {
+            temp2 = equipment.RemoveArmor(((EquipmentSlot)finish).armorType);
+            // проверку на подход€щий тип армора сделать
+            equipment.PutOnArmor(temp, ((EquipmentSlot)finish).armorType);
+        }
+        else
+        {
+            temp2 = inventory.DeleteItem(((InventorySlot)finish).row, ((InventorySlot)finish).col);
+            inventory.AddItem(temp, ((InventorySlot)finish).row, ((InventorySlot)finish).col);
+        }
+
+        // в стартовую €чейку помещаем содержимое конечной
+        if (start as HotbarSlot)
+        {
+            hotbar.AddItemByIndex(temp2, ((HotbarSlot)start).index);
+        }
+        else if (start as EquipmentSlot)
+        {
+            equipment.PutOnArmor(temp2, ((EquipmentSlot)start).armorType);
+        }
+        else
+        {
+            inventory.AddItem(temp, ((InventorySlot)start).row, ((InventorySlot)start).col);
+        }
     }
 
     private void Update()
@@ -104,6 +145,12 @@ public class PlayerData : MonoBehaviour
 
             // красим новый выбранный предмет
             hotbar.SelectCurItem();
+        }
+
+        // на q сбросить текущий предмет из хотбара
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            hotbar.DropCurItem();
         }
     }
 }
