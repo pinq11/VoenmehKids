@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Skeleton : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Skeleton : MonoBehaviour
     public GameObject player;
     public Horde horde;
     public Animator animator;
+
     private Vector3 lastpos;
     private Vector3 diff;
     private Vector3 idlecheck;
@@ -21,6 +23,10 @@ public class Skeleton : MonoBehaviour
     // это Толя добавил
     private PlayerData data;
     private bool isAttacking = false;
+
+    public Slider healthSlider;
+    public float health;
+    public float maxHealth;
    
     void Start()
     {
@@ -28,6 +34,12 @@ public class Skeleton : MonoBehaviour
         lastpos = this.transform.position;
         nav = GetComponent<NavMeshAgent>();
         data = FindObjectOfType<PlayerData>();
+        maxHealth = 100;
+        healthSlider.maxValue = maxHealth;
+        health = maxHealth;
+        healthSlider.value = health;
+        healthSlider.transform.position = this.transform.position;
+        healthSlider.transform.position += Vector3.up * 2;
     }
     
     public void Update()
@@ -104,6 +116,16 @@ public class Skeleton : MonoBehaviour
             yield return new WaitForSeconds(1.2f);
             data.TakeDamage(Random.Range(horde.minDamage, horde.maxDamage));
             isAttacking = false;
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        healthSlider.value = health;
+        if (health <= 0)
+        {
+            //animator.SetBool("Death", true);
         }
     }
 }

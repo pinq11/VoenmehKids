@@ -17,3 +17,4 @@ MonoBehaviour:
   groundItem: {fileID: 5780631754864674140, guid: 6edf66a95e30b0b47857232a1a3e018d,
     type: 3}
   animationTime: 0.35
+  damage: 50

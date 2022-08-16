@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public PlayerData player;
+
     public ObjectData weapon;
     public Animator animator;
 
     public bool isAttacking = false;
 
-    // Update is called once per frame
+
+    private void Start()
+    {
+        player = FindObjectOfType<PlayerData>();
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -26,6 +33,7 @@ public class Weapon : MonoBehaviour
             animator.SetBool("isAttacking", true);
             yield return new WaitForSeconds(weapon.animationTime);
             animator.SetBool("isAttacking", false);
+            player.HitEnemy();
             isAttacking = false;
         }
     }

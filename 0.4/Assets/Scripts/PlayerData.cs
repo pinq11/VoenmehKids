@@ -12,6 +12,8 @@ public class PlayerData : MonoBehaviour
     [Header("PlayerStats")]
     public float maxHealth;
     public float curHealth;
+    public float damage;
+    public float armor;
 
     [Header("UIComponents")]
     public Slider healthSlider;
@@ -27,6 +29,8 @@ public class PlayerData : MonoBehaviour
 
     // вещи в "рюкзаке"
     public Inventory inventory;
+
+    public List<Skeleton> skeletons = new List<Skeleton>();
 
     public void Start()
     {
@@ -152,5 +156,27 @@ public class PlayerData : MonoBehaviour
         {
             hotbar.DropCurItem();
         }
+    }
+
+    // бьёт всех врагов разом
+    public void HitEnemy() 
+    {
+        if (skeletons.Count == 0)
+            return;
+
+        foreach (var skeleton in skeletons)
+            skeleton.TakeDamage(damage);
+    }
+
+    // добавляет врага в список врагов, которые получают урон разом
+    public void AddEnemyForHit(Skeleton skeleton) 
+    {
+        skeletons.Add(skeleton);
+    }
+
+    // аналогично удаляет
+    public void RemoveEnemyForHit(Skeleton skeleton) 
+    { 
+        skeletons.Remove(skeleton); 
     }
 }

@@ -10,4 +10,5 @@ public class ObjectData : ScriptableObject
     public GameObject prefab;
     public GameObject groundItem;
     public float animationTime;
+    public float damage;
 }

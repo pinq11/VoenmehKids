@@ -18,6 +18,13 @@ public class Hotbar : MonoBehaviour
     private GameObject currentEquiped;
     public GameObject cameraObj;
 
+    public PlayerData player;
+
+    private void Start()
+    {
+        player = FindObjectOfType<PlayerData>();
+    }
+
     public Hotbar ()
     {
         items = new ObjectData[MAX_ITEMS];
@@ -90,24 +97,6 @@ public class Hotbar : MonoBehaviour
         return deleted;
     }
 
-    // заменяет два предмета из хотбара между собой
-    public void Replace(int startIndex, int finishIndex)
-    {
-        if (startIndex < 0 || startIndex >= MAX_ITEMS)
-            throw new System.ArgumentOutOfRangeException();
-
-        if (finishIndex < 0 || finishIndex >= MAX_ITEMS)
-            throw new System.ArgumentOutOfRangeException();
-
-        Sprite tempUI = UI[startIndex].icon.sprite;
-        UI[startIndex].icon.sprite = UI[finishIndex].icon.sprite;
-        UI[finishIndex].icon.sprite = tempUI;
-
-        ObjectData tempItem = items[startIndex];
-        items[startIndex] = items[finishIndex];
-        items[finishIndex] = tempItem;
-    }
-
     // помечает текущий предмет хотбара цветом
     public void SelectCurItem()
     {
@@ -120,7 +109,11 @@ public class Hotbar : MonoBehaviour
             currentEquiped.transform.SetParent(cameraObj.transform);
             currentEquiped.transform.localPosition = items[curItem].prefab.transform.position;
             currentEquiped.transform.localRotation = items[curItem].prefab.transform.rotation;
+
+            player.damage = items[curItem].damage;
         }
+        // проверка на оружие
+        //if (items[curItem] as Weapon)
     }
 
     // возварщает дефолтный цвет ячейке хотбара
@@ -130,6 +123,8 @@ public class Hotbar : MonoBehaviour
         // удаляем префаб предмета
         if (currentEquiped != null)
             Destroy(currentEquiped);
+
+        player.damage = 0;
     }
 
     // увеличивает текущий предмет на 1
