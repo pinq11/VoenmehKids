@@ -23,6 +23,7 @@ public class Hotbar : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<PlayerData>();
+        cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
     public Hotbar ()
@@ -36,14 +37,6 @@ public class Hotbar : MonoBehaviour
             return true;
 
         return false; 
-    }
-
-    public ObjectData GetItemByIndex(int index) 
-    {
-        if (index < 0 || index >= MAX_ITEMS)
-            throw new System.ArgumentOutOfRangeException();
-
-        return items[index]; 
     }
 
     // добавл€ет предмет на первое попавшеес€ свободное место
@@ -142,11 +135,13 @@ public class Hotbar : MonoBehaviour
             curItem = MAX_ITEMS - 1;
     }
 
+    // бросает предмет на землю, использу€ префаб
     public void DropCurItem()
     {
         if (items[curItem] == null)
             return;
-
-        //Instantiate(items[curItem].groundItem);
+        print("1");
+        Instantiate(items[curItem].groundItem, cameraObj.transform);
+        print("2");
     }
 }

@@ -30,6 +30,7 @@ public class PlayerData : MonoBehaviour
     // вещи в "рюкзаке"
     public Inventory inventory;
 
+    // лист врагов, наход€щихс€ в радиусе атаки
     public List<Skeleton> skeletons = new List<Skeleton>();
 
     public void Start()
@@ -44,17 +45,20 @@ public class PlayerData : MonoBehaviour
         hotbar.SelectCurItem();
     }
 
+    // игрок получает урон
     public void TakeDamage(float damage)
     {
         curHealth -= damage;
         if (curHealth <= 0)
         {
             // PlayerDeath();
+            // печальный экран и вызов меню
         } 
         healthSlider.value = curHealth;
         healthText.text = curHealth.ToString("F0") + "/" + maxHealth.ToString("F0");
     }
 
+    // восстановление здоровь€
     public void Heal(float treating)
     {
         curHealth += treating;
@@ -75,7 +79,8 @@ public class PlayerData : MonoBehaviour
             return true;
 
         // потом провер€ем инвентарь, если не было места в хотбаре
-        //if ()
+        if (inventory.AddItem(pickUpItem))
+            return true;
 
         // возвращаем удалось ли запихать в инвентарь
         return false;
@@ -96,6 +101,7 @@ public class PlayerData : MonoBehaviour
         }
         else
         {
+            print(((InventorySlot)start).row + " " + ((InventorySlot)start).col);
             temp = inventory.DeleteItem(((InventorySlot)start).row, ((InventorySlot)start).col);
         }
 
@@ -118,6 +124,10 @@ public class PlayerData : MonoBehaviour
             inventory.AddItem(temp, ((InventorySlot)finish).row, ((InventorySlot)finish).col);
         }
 
+        // если перекладываем в пустую €чейку
+        if (temp2 == null)
+            return;
+
         // в стартовую €чейку помещаем содержимое конечной
         if (start as HotbarSlot)
         {
@@ -129,7 +139,7 @@ public class PlayerData : MonoBehaviour
         }
         else
         {
-            inventory.AddItem(temp, ((InventorySlot)start).row, ((InventorySlot)start).col);
+            inventory.AddItem(temp2, ((InventorySlot)start).row, ((InventorySlot)start).col);
         }
     }
 
@@ -138,7 +148,7 @@ public class PlayerData : MonoBehaviour
         // если покрутили колесиком
         if (Input.GetAxisRaw("Mouse ScrollWheel") != 0)
         {
-            // перекрашиваем старый в дефолтный цвет
+            // перекрашиваем старую €чейку хотбара в дефолтный цвет
             hotbar.UnSeletctCurItem();
 
             // мен€ем curItem

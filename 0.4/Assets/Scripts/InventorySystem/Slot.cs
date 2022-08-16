@@ -4,54 +4,64 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, 
-                             IEndDragHandler, IPointerEnterHandler
+public abstract class Slot : MonoBehaviour, IPointerEnterHandler,
+                             IPointerDownHandler, IPointerUpHandler
 {
-    private static PlayerData data;
+    private static GameObject draggingSprite;
+    private static PlayerData player;
     private static Slot finish;
-    private static Vector3 startPosition;
 
     public Image icon;
     public Image background;
 
-    public void Awake()
+    public void Start()
     {
-        data = FindObjectOfType<PlayerData>();
+        player = FindObjectOfType<PlayerData>();
+        // вручную создаем UI для drag&drop
+        draggingSprite = new GameObject();
+        draggingSprite.AddComponent<Image>();
+        draggingSprite.GetComponent<Image>().raycastTarget = false;
+        draggingSprite.transform.parent = GameObject.Find("UI_Panel").transform;
+        draggingSprite.SetActive(false);
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    // здесь добавим спрайт
+    public void OnPointerDown(PointerEventData eventData)
     {
-        startPosition = transform.position;  
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        // по оси z на первое место
-        // нельзя перетаскивать пустые слоты
+        // нельзя перетаскивать слоты без спрайта
         if (icon.sprite == null)
             return;
 
-        transform.position = eventData.pointerCurrentRaycast.screenPosition;   
+        finish = this;
+
+        draggingSprite.GetComponent<Image>().sprite = icon.sprite;
+        draggingSprite.SetActive(true);
     }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (icon.sprite == null)
-            return;
-
-        data.MoveItem(this, finish);
-        transform.position = startPosition;
-    }
-
-    // здесь создадим новый UI
-    /*public void OnPointerDown(PointerEventData eventData)
-    {
-        
-    }*/
-
+    // здесь помечаем, в какой слот вошли
     public void OnPointerEnter(PointerEventData eventData)
     {
         print(this);
         finish = this;
     }
+
+    // здесь удаляем временный UI и запускаем player.MoveItem(this, finish);
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        // нельзя перетаскивать слоты без спрайта
+        if (icon.sprite == null)
+            return;
+
+        draggingSprite.SetActive(false);
+
+        if (finish != this)
+            player.MoveItem(this, finish);
+    }
+
+    private void Update()
+    {
+        if (draggingSprite.activeSelf)
+            draggingSprite.transform.position = Input.mousePosition;
+    }
+
 }

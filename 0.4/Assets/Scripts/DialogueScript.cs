@@ -81,14 +81,16 @@ namespace UnityStandartAssest.Characters.Firstperson
                 switch(data.dialogueNumber)
                 {
                     case 0:
-                        npcs[0].talked = true;
-                        data.questNumber = 1;
-                        obj.StartNewQuest(obj.quests[1]);
-                        npcs[0].inDialogue = false;
-                        break;
+                        {
+                            npcs[0].talked = true;
+                            data.questNumber = 1;
+                            npcs[0].inDialogue = false;
+                            break;
+                        }
                     case 1:
                         {
                             npcs[0].inDialogue = false;
+                            obj.StartNewQuest(obj.quests[1]);
                             break;
                         }
                     case 2:
@@ -121,7 +123,7 @@ namespace UnityStandartAssest.Characters.Firstperson
                 data.dialogueNumber = 0;
                 currentDialogueNum = 0;
                 curDialogue = null;
-                this.gameObject.SetActive(false);
+                gameObject.SetActive(false);
             }
         }
         public void next()
