@@ -17,12 +17,17 @@ public abstract class Slot : MonoBehaviour, IPointerEnterHandler,
     public void Start()
     {
         player = FindObjectOfType<PlayerData>();
+
         // вручную создаем UI для drag&drop
         draggingSprite = new GameObject();
         draggingSprite.AddComponent<Image>();
         draggingSprite.GetComponent<Image>().raycastTarget = false;
         draggingSprite.transform.parent = GameObject.Find("UI_Panel").transform;
         draggingSprite.SetActive(false);
+
+        // ищем icon и background
+        icon = gameObject.GetComponent<Image>();
+        background = transform.parent.GetComponent<Image>(); 
     }
 
     // здесь добавим спрайт
@@ -41,7 +46,6 @@ public abstract class Slot : MonoBehaviour, IPointerEnterHandler,
     // здесь помечаем, в какой слот вошли
     public void OnPointerEnter(PointerEventData eventData)
     {
-        print(this);
         finish = this;
     }
 

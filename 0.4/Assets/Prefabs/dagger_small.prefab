@@ -117,5 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d9afa942fb5adb4db876bb2388b904b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 11400000, guid: 286ba663542359f4d87ebc4b0274798c, type: 2}
+  player: {fileID: 0}
+  weapon: {fileID: 11400000, guid: 7a79201c7ff735d4687bd2c3d77b85db, type: 2}
   animator: {fileID: 141155483}
+  isAttacking: 0

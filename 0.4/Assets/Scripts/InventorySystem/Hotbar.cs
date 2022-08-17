@@ -12,8 +12,8 @@ public class Hotbar : MonoBehaviour
     private int curItem = 0;
     private int curItemsAmount = 0;
 
-    public Color defaultColor;
-    public Color selectedColor;
+    public Color32 defaultColor;
+    public Color32 selectedColor;
 
     private GameObject currentEquiped;
     public GameObject cameraObj;
@@ -22,8 +22,20 @@ public class Hotbar : MonoBehaviour
 
     private void Start()
     {
+        // поиск геймобжектов
         player = FindObjectOfType<PlayerData>();
         cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
+
+        // найстройка цвета
+        defaultColor = new Color32(126, 123, 122, 255);
+        selectedColor = new Color32(255, 115, 115, 145);
+
+        // заполнение UI списка
+        /*UI = new HotbarSlot[MAX_ITEMS];
+        for (int i = 0; i < MAX_ITEMS; i++)
+        {
+            UI[i] = this.transform.ch
+        }*/
     }
 
     public Hotbar ()
@@ -102,11 +114,13 @@ public class Hotbar : MonoBehaviour
             currentEquiped.transform.SetParent(cameraObj.transform);
             currentEquiped.transform.localPosition = items[curItem].prefab.transform.position;
             currentEquiped.transform.localRotation = items[curItem].prefab.transform.rotation;
-
-            player.damage = items[curItem].damage;
         }
+
         // проверка на оружие
-        //if (items[curItem] as Weapon)
+        if (items[curItem] as WeaponStats)
+        {
+            player.damage = ((WeaponStats)items[curItem]).damage;
+        }
     }
 
     // возварщает дефолтный цвет ячейке хотбара

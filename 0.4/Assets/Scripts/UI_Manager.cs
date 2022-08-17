@@ -5,7 +5,13 @@ using UnityEngine;
 public class UI_Manager : MonoBehaviour
 {
     public GameObject InventorySystem;
-    
+
+    /*private void Start()
+    {
+        InventorySystem = GameObject.FindGameObjectWithTag("InventorySystem");
+        print(InventorySystem);
+    }*/
+
     void Update()
     {
         // включение инвентаря

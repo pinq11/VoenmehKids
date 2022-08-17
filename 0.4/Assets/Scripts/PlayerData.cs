@@ -189,4 +189,13 @@ public class PlayerData : MonoBehaviour
     { 
         skeletons.Remove(skeleton); 
     }
+
+
+    // смерть игрока
+    public void PlayerDeath()
+    {
+        // поставить игру на паузу
+        // темнеющий экран активировать
+        // по нажатию возвращать в меню
+    }
 }

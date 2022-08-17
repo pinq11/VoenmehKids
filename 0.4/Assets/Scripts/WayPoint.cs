@@ -19,7 +19,6 @@ public class WayPoint : MonoBehaviour
         pos.y = Mathf.Clamp(pos.y, miny, maxy);
         if (Vector3.Dot((target.position - transform.position), transform.forward) < 0)
         {
-            print("xui1488");
             if (pos.x < Screen.width / 2)
             {
                 pos.x = maxx;
