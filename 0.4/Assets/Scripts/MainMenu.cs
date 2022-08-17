@@ -28,6 +28,18 @@ namespace UnityStandartAssest.Characters.Firstperson
             end2.SetActive(true);
             menu.SetActive(false);
         }
+
+        public void Load()
+        {
+
+        }
+
+        public void Exit()
+        {
+            Application.Quit();
+        }
+
+        public void MakePlayerActive() { rigid.enabled = true; }
     }
 }
 

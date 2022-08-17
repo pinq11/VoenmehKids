@@ -119,7 +119,14 @@ public class Hotbar : MonoBehaviour
         // проверка на оружие
         if (items[curItem] as WeaponStats)
         {
+            // обновляем дамаг главного героя
             player.damage = ((WeaponStats)items[curItem]).damage;
+
+            // обновляем хитбокс (на самом деле ее лучше звать "зона удара")
+            player.hitbox.GetComponent<BoxCollider>().size = new Vector3(
+                ((WeaponStats)items[curItem]).hitboxX,
+                ((WeaponStats)items[curItem]).hitboxY,
+                ((WeaponStats)items[curItem]).hitboxZ);
         }
     }
 

@@ -33,6 +33,11 @@ public class PlayerData : MonoBehaviour
     // лист врагов, находящихся в радиусе атаки
     public List<Skeleton> skeletons = new List<Skeleton>();
 
+    // хитбокс ("зона атаки персонажа")
+    public HitBox hitbox;
+
+    public UI_Manager ui_manager;
+
     public void Start()
     {
         // настройка здоровья
@@ -40,6 +45,10 @@ public class PlayerData : MonoBehaviour
         curHealth = maxHealth;
         healthSlider.value = curHealth;
         healthText.text = curHealth.ToString("F0") + "/" + maxHealth.ToString("F0");
+
+        hitbox = FindObjectOfType<HitBox>();
+
+        ui_manager = FindObjectOfType<UI_Manager>();
 
         // настройка хотбара
         hotbar.SelectCurItem();
@@ -197,5 +206,6 @@ public class PlayerData : MonoBehaviour
         // поставить игру на паузу
         // темнеющий экран активировать
         // по нажатию возвращать в меню
+        ui_manager.ShowDeathScreen();
     }
 }
