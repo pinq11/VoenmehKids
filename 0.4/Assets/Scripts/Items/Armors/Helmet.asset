@@ -16,4 +16,4 @@ MonoBehaviour:
   prefab: {fileID: 0}
   groundItem: {fileID: 0}
   armorType: 0
-  armorPoints: 0
+  armorPoints: 10

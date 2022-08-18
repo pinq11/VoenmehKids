@@ -135,4 +135,6 @@ public class Skeleton : MonoBehaviour
             isDead = true;
         }
     }
+
+    public bool IsDead() { return isDead; }
 }

@@ -109,7 +109,6 @@ public class PlayerData : MonoBehaviour
         }
         else
         {
-            print(((InventorySlot)start).row + " " + ((InventorySlot)start).col);
             temp = inventory.DeleteItem(((InventorySlot)start).row, ((InventorySlot)start).col);
         }
 

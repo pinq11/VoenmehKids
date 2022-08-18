@@ -6,18 +6,19 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class UI_Manager : MonoBehaviour
 {
     public GameObject InventorySystem;
-    public GameObject MainMenu;
+    public GameObject MainMenu; 
     public GameObject DeathScreen;
     public RigidbodyFirstPersonController rigid;
+    public GameObject hotbar;
+    public GameObject healthSlider;
 
-    /*   private void Start()
-       {
-           InventorySystem = GameObject.FindGameObjectWithTag("InventorySystem");
-           print(InventorySystem);
+    private void Start()
+    {
+        /*InventorySystem = GameObject.FindGameObjectWithTag("InventorySystem");
+        print(InventorySystem);*/
 
-           MainMenu = FindObjectOfType<MainMenu>
-       }
-   */
+    }
+
     void Update()
     {
         // включение инвентаря
@@ -39,7 +40,7 @@ public class UI_Manager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             if (!MainMenu.activeSelf)
                 ShowMenu();
@@ -53,7 +54,9 @@ public class UI_Manager : MonoBehaviour
         Time.timeScale = 0;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        hotbar.SetActive(false);
         MainMenu.SetActive(true);
+        healthSlider.SetActive(true);
 
         if (DeathScreen.activeSelf)
             DeathScreen.SetActive(false);
@@ -65,6 +68,8 @@ public class UI_Manager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         rigid.enabled = true;
+        hotbar.SetActive(true);
+        healthSlider.SetActive(true);
         MainMenu.SetActive(false);
     }
 
@@ -73,6 +78,7 @@ public class UI_Manager : MonoBehaviour
         Time.timeScale = 0;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        healthSlider.SetActive(false);
         DeathScreen.SetActive(true);
     }
 }

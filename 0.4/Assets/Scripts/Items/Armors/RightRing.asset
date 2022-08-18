@@ -15,5 +15,5 @@ MonoBehaviour:
   sprite: {fileID: 0}
   prefab: {fileID: 0}
   groundItem: {fileID: 0}
-  armorType: 0
-  armorPoints: 0
+  armorType: 4
+  armorPoints: 5

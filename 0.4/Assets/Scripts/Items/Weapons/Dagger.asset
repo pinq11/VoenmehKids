@@ -17,7 +17,7 @@ MonoBehaviour:
   groundItem: {fileID: 2756453972330995153, guid: fa2bd7d4e45d4df4fac688f6ce0ff469,
     type: 3}
   attackTime: 0.35
-  damage: 10
+  damage: 30
   hitboxX: 1
   hitboxY: 1
   hitboxZ: 1
