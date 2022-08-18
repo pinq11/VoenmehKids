@@ -60,8 +60,7 @@ public class PlayerData : MonoBehaviour
         curHealth -= damage;
         if (curHealth <= 0)
         {
-            // PlayerDeath();
-            // печальный экран и вызов меню
+            PlayerDeath();
         } 
         healthSlider.value = curHealth;
         healthText.text = curHealth.ToString("F0") + "/" + maxHealth.ToString("F0");

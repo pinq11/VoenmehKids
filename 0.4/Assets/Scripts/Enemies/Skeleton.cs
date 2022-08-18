@@ -27,6 +27,8 @@ public class Skeleton : MonoBehaviour
     public Slider healthSlider;
     public float health;
     public float maxHealth;
+
+    private bool isDead = false;
    
     void Start()
     {
@@ -44,6 +46,9 @@ public class Skeleton : MonoBehaviour
     
     public void Update()
     {
+        if (isDead)
+            return;
+
         idlecheck = transform.position - lastpos;
         updateTime += Time.deltaTime;
         float distance = Vector3.Distance(this.transform.position, player.transform.position);
@@ -125,7 +130,9 @@ public class Skeleton : MonoBehaviour
         healthSlider.value = health;
         if (health <= 0)
         {
-            //animator.SetBool("Death", true);
+            nav.isStopped = true;
+            animator.SetBool("Dead", true);
+            isDead = true;
         }
     }
 }
